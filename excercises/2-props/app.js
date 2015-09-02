@@ -31,13 +31,21 @@ var USERS = [
 var emailType = (props, propName, componentName) => {
   warning(
     validateEmail(props.email),
-    `Invalid email '${props.email}' sent to 'Gravatar'. Check the render method of '${componentName}'.`
+    `Invalid email '${props[propName]}' sent to 'Gravatar'. Check the render method of '${componentName}'.`
+  );
+};
+
+var sizeType = (props, propName, componentName) => {
+  warning(
+    !isNaN(parseInt(props[propName])),
+    `Invalid prop "${propName}", can not convert "${props[propName]}" to number. Check the render method of "${componentName}".`
   );
 };
 
 var Gravatar = React.createClass({
   propTypes: {
-    email: emailType
+    email: emailType,
+    size: sizeType
   },
 
   getDefaultProps () {
@@ -54,12 +62,14 @@ var Gravatar = React.createClass({
   }
 });
 
+// Below, the Gravatar component is being sent the user.email via this.props, which comes from the App component being sent the {USERS} when it is rendered
+
 var App = React.createClass({
   render () {
     var users = this.props.users.map((user) => {
       return (
         <li key={user.id}>
-          <Gravatar email={user.email} size={36} /> {user.name}
+          <Gravatar email={user.email} size={30} /> {user.name}  
         </li>
       );
     });
