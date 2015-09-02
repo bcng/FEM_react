@@ -23,9 +23,14 @@ var DATA = {
 
 var Menu = React.createClass({
   render () {
+    var items = DATA.items
+    .map((item) => {
+      return <li> {item.name} </li>
+    })
     return (
       <div>
-        <h1> Food </h1>
+        <h1> {DATA.title} </h1>
+        <ul> {items} </ul>
       </div>
     );
   }
@@ -34,4 +39,3 @@ var Menu = React.createClass({
 React.render(<Menu/>, document.body, () => {
   require('./tests').run();
 });
-
